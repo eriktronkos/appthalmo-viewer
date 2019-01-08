@@ -1,71 +1,81 @@
 import utils from './utils'
+import SupportLines from './components/support-lines';
+import MeasurementPlaceholders from "./components/placeholders";
 
-const canvas = document.querySelector('canvas')
-const c = canvas.getContext('2d')
+const canvas = document.querySelector('canvas');
+const c = canvas.getContext('2d');
 
-canvas.width = innerWidth
-canvas.height = innerHeight
+canvas.width = innerWidth;
+canvas.height = innerHeight;
 
 const mouse = {
     x: innerWidth / 2,
     y: innerHeight / 2
-}
-
-const colors = ['#2185C5', '#7ECEFD', '#FFF6E5', '#FF7F66']
+};
 
 // Event Listeners
 addEventListener('mousemove', event => {
-    mouse.x = event.clientX
+    mouse.x = event.clientX;
     mouse.y = event.clientY
-})
+});
 
 addEventListener('resize', () => {
-    canvas.width = innerWidth
-    canvas.height = innerHeight
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
 
     init()
-})
+});
 
 // Objects
 function Object(x, y, radius, color) {
-    this.x = x
-    this.y = y
-    this.radius = radius
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
     this.color = color
 }
 
 Object.prototype.draw = function() {
-    c.beginPath()
-    c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-    c.fillStyle = this.color
-    c.fill()
+    c.beginPath();
+    c.arc(mouse.x + this.x, mouse.y + this.y, this.radius, 0, Math.PI * 2, false);
+    c.fillStyle = this.color;
+    c.fill();
     c.closePath()
-}
+};
 
 Object.prototype.update = function() {
     this.draw()
-}
+};
 
 // Implementation
-let objects
+let objects;
 function init() {
-    objects = []
+    objects = [];
 
-    for (let i = 0; i < 400; i++) {
-        // objects.push();
-    }
+    // for (let i = 0; i < 100; i++) {
+    //     objects.push(new Object(i * 10, 100, 1, "black"));
+    // }
+    objects.push( new SupportLines(200, 200, 10));
+    objects.push( new MeasurementPlaceholders(200, 200));
+
+  objects.push( new SupportLines(500, 200, 10));
+  objects.push( new MeasurementPlaceholders(500, 200));
 }
 
 // Animation Loop
 function animate() {
-    requestAnimationFrame(animate)
-    c.clearRect(0, 0, canvas.width, canvas.height)
+    requestAnimationFrame(animate);
+    c.clearRect(0, 0, canvas.width, canvas.height);
 
-    c.fillText('HTML CANVAS BOILERPLATE', mouse.x, mouse.y)
-    // objects.forEach(object => {
-    //  object.update();
-    // });
+    c.fillStyle = "#000";
+    c.fillText("LEFT", 190, 50);
+    c.fillText("RIGHT", 485, 50);
+    c.fillText(`x: ${mouse.x}, y: ${mouse.y}`, mouse.x, mouse.y);
+
+
+  objects.forEach(object => {
+     object.update(c, mouse);
+    });
 }
 
-init()
-animate()
+init();
+animate();

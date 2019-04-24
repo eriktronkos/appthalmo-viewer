@@ -1,6 +1,8 @@
 import utils from './utils'
 import SupportLines from './components/support-lines';
 import MeasurementPlaceholders from "./components/placeholders";
+import LeftEye from "./components/left-eye";
+import RightEye from "./components/right-eye";
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -54,11 +56,11 @@ function init() {
     // for (let i = 0; i < 100; i++) {
     //     objects.push(new Object(i * 10, 100, 1, "black"));
     // }
-    objects.push( new SupportLines(200, 200, 10));
-    objects.push( new MeasurementPlaceholders(200, 200));
+    objects.push( new LeftEye(200, 200, 10));
+    // objects.push( new MeasurementPlaceholders(200, 200));
 
-  objects.push( new SupportLines(500, 200, 10));
-  objects.push( new MeasurementPlaceholders(500, 200));
+  objects.push( new RightEye(700, 200, 10));
+  // objects.push( new MeasurementPlaceholders(700, 200));
 }
 
 // Animation Loop
@@ -67,8 +69,8 @@ function animate() {
     c.clearRect(0, 0, canvas.width, canvas.height);
 
     c.fillStyle = "#000";
-    c.fillText("LEFT", 190, 50);
-    c.fillText("RIGHT", 485, 50);
+    c.fillText("LEFT", 190, 30);
+    c.fillText("RIGHT", 685, 30);
     c.fillText(`x: ${mouse.x}, y: ${mouse.y}`, mouse.x, mouse.y);
 
 
